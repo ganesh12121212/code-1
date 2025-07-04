@@ -1,0 +1,109 @@
+/* Reset */
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  color: #ffccd5;
+}
+
+body {
+  background: linear-gradient(135deg, #3d0059 0%, #680029 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+nav#menuBar {
+  position: fixed;
+  top: 10px; left: 10px;
+  background: rgba(20,0,30,0.85);
+  padding: 12px 20px;
+  border-radius: 12px;
+  z-index: 1000;
+  box-shadow: 0 0 15px #ff4466;
+}
+
+nav#menuBar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav#menuBar li {
+  cursor: pointer;
+  font-size: 18px;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav#menuBar li.active,
+nav#menuBar li:hover {
+  color: #ff6f91;
+}
+
+nav#menuBar li .notif {
+  position: absolute;
+  top: -4px; right: -8px;
+  color: #ff3b3b;
+  animation: blink 1.5s infinite;
+  font-weight: 900;
+  user-select: none;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+
+.section {
+  display: none;
+  padding: 120px 30px 50px 30px;
+  min-height: 100vh;
+}
+
+.section.active {
+  display: block;
+}
+
+h1, h2 {
+  text-align: center;
+  text-shadow: 0 0 8px #ff2d65;
+  margin-bottom: 20px;
+}
+
+#photoGallery, #eyesGallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  gap: 15px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+#photoGallery img, #eyesGallery img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 0 15px #ff2d65;
+  transition: transform 0.3s ease;
+}
+
+#photoGallery img:hover, #eyesGallery img:hover {
+  transform: scale(1.1) rotate(5deg);
+}
+
+#quotesList {
+  max-width: 700px;
+  margin: 0 auto;
+  font-style: italic;
+  font-size: 1.3rem;
+  line-height: 1.6;
+  text-align: center;
+  padding: 0 20px;
+}
+
+#heartParticles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}

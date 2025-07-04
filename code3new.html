@@ -1,0 +1,169 @@
+// Simple menu navigation
+const menuItems = document.querySelectorAll('#menuBar li');
+const sections = document.querySelectorAll('.section');
+const notif = document.querySelector('nav#menuBar li[data-section="about"] .notif');
+
+menuItems.forEach(item => {
+  item.addEventListener('click', () => {
+    menuItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    const target = item.dataset.section;
+    sections.forEach(sec => {
+      sec.classList.toggle('active', sec.id === target);
+    });
+    // Remove notification dot on About click
+    if(target === 'about') notif.style.display = 'none';
+  });
+});
+
+// Sample photos URLs (replace with your own if you want)
+const photoUrls = [
+  'https://picsum.photos/id/1015/400/400',
+  'https://picsum.photos/id/1016/400/400',
+  'https://picsum.photos/id/1020/400/400',
+  'https://picsum.photos/id/1024/400/400',
+  'https://picsum.photos/id/1027/400/400',
+  'https://picsum.photos/id/1031/400/400',
+  'https://picsum.photos/id/1035/400/400',
+  'https://picsum.photos/id/1038/400/400',
+  'https://picsum.photos/id/1039/400/400',
+  'https://picsum.photos/id/1043/400/400',
+  'https://picsum.photos/id/1050/400/400',
+  'https://picsum.photos/id/1062/400/400',
+  'https://picsum.photos/id/1063/400/400',
+  'https://picsum.photos/id/1067/400/400',
+  'https://picsum.photos/id/1070/400/400',
+  'https://picsum.photos/id/1081/400/400',
+  'https://picsum.photos/id/1084/400/400',
+  'https://picsum.photos/id/1085/400/400',
+  'https://picsum.photos/id/1089/400/400',
+  'https://picsum.photos/id/1090/400/400'
+];
+
+// Sample eyes photos (subset or different)
+const eyesUrls = [
+  'https://picsum.photos/id/1011/400/400',
+  'https://picsum.photos/id/1013/400/400',
+  'https://picsum.photos/id/1025/400/400',
+  'https://picsum.photos/id/1029/400/400',
+  'https://picsum.photos/id/1030/400/400',
+  'https://picsum.photos/id/1037/400/400'
+];
+
+// Sample love quotes
+const loveQuotes = [
+  "You are my sun, my moon, and all my stars. 🌞🌙⭐",
+  "I love you to the moon and back. 🌕🚀",
+  "Every moment with you is a treasure. 💎",
+  "You are the reason I believe in love. ❤️",
+  "With you, forever isn’t long enough. ♾️",
+  "You light up my world like no one else. 💡❤️",
+  "Your smile is my favorite thing. 😊",
+  "Together is my favorite place to be. 🤗",
+  "My heart beats for you and only you. 💓",
+  "You complete me in every way. 🧩❤️"
+];
+
+// Populate galleries
+const photoGallery = document.getElementById('photoGallery');
+photoUrls.forEach(url => {
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Best photo';
+  photoGallery.appendChild(img);
+});
+
+const eyesGallery = document.getElementById('eyesGallery');
+eyesUrls.forEach(url => {
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Her eyes photo';
+  eyesGallery.appendChild(img);
+});
+
+const quotesList = document.getElementById('quotesList');
+loveQuotes.forEach(q => {
+  const p = document.createElement('p');
+  p.textContent = q;
+  quotesList.appendChild(p);
+});
+
+// 3D Heart and Stars Particles background using Canvas
+const heartCanvas = document.createElement('canvas');
+heartCanvas.id = 'heartCanvas';
+document.getElementById('heartParticles').appendChild(heartCanvas);
+
+const ctx = heartCanvas.getContext('2d');
+let W, H;
+
+function resize() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  heartCanvas.width = W;
+  heartCanvas.height = H;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor(){
+    this.x = Math.random()*W;
+    this.y = Math.random()*H;
+    this.size = Math.random()*8+4;
+    this.speedX = (Math.random()-0.5)*1.2;
+    this.speedY = (Math.random()-0.5)*1.2;
+    this.angle = 0;
+    this.spinSpeed = (Math.random()-0.5)*0.1;
+    this.type = Math.random() < 0.5 ? 'heart' : 'star';
+  }
+  draw(){
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.rotate(this.angle);
+    ctx.fillStyle = this.type === 'heart' ? '#ff4455' : '#ffd700';
+    if(this.type === 'heart'){
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, this.size/3, 0, this.size);
+      ctx.bezierCurveTo(this.size, this.size/3, this.size/2, -this.size/2, 0, 0);
+      ctx.fill();
+    } else {
+      // star shape
+      ctx.beginPath();
+      for(let i=0;i<5;i++){
+        ctx.lineTo(0, -this.size);
+        ctx.translate(0,0);
+        ctx.rotate(Math.PI/5);
+        ctx.lineTo(0, -this.size/2);
+        ctx.rotate(Math.PI/5);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+  update(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.angle += this.spinSpeed;
+    if(this.x > W) this.x = 0;
+    if(this.x < 0) this.x = W;
+    if(this.y > H) this.y = 0;
+    if(this.y < 0) this.y = H;
+  }
+}
+
+const particles = [];
+for(let i=0; i<60; i++){
+  particles.push(new Particle());
+}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+animate();

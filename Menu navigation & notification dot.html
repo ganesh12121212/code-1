@@ -1,0 +1,171 @@
+// Menu navigation & notification dot
+const menuItems = document.querySelectorAll('#menuBar li');
+const sections = document.querySelectorAll('.section');
+const notif = document.querySelector('nav#menuBar li[data-section="about"] .notif');
+
+menuItems.forEach(item => {
+  item.addEventListener('click', () => {
+    menuItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    const target = item.dataset.section;
+    sections.forEach(sec => {
+      sec.classList.toggle('active', sec.id === target);
+    });
+    if(target === 'about') notif.style.display = 'none';
+  });
+});
+
+// Random Photos URLs (20 images from Unsplash placeholders)
+const photoUrls = [
+  'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1469594292607-14f5d0a9a7d2?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1492447166138-50c3889fccb1?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1504198453319-5ce911bafcde?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80'
+];
+
+// Her eyes photos (subset)
+const eyesUrls = [
+  'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?auto=format&fit=crop&w=400&q=80',
+  'https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80',
+];
+
+// Love Quotes with iPhone style emojis
+const loveQuotes = [
+  "You’re my 🌞 sun, 🌜 moon, and all ⭐ stars.",
+  "I love you to the 🌕 moon and back 🚀.",
+  "Every moment with you is a 💎 treasure.",
+  "You’re the ❤️ reason I believe in love.",
+  "With you, forever isn’t long enough ♾️.",
+  "You light up my world like no one else 💡❤️.",
+  "Your smile is my favorite thing 😊.",
+  "Together is my favorite place to be 🤗.",
+  "My heart beats for you and only you 💓.",
+  "You complete me in every way 🧩❤️."
+];
+
+// Populate photo gallery
+const photoGallery = document.getElementById('photoGallery');
+photoUrls.forEach(url => {
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Best photo';
+  photoGallery.appendChild(img);
+});
+
+// Populate eyes gallery
+const eyesGallery = document.getElementById('eyesGallery');
+eyesUrls.forEach(url => {
+  const img = document.createElement('img');
+  img.src = url;
+  img.alt = 'Her eyes photo';
+  eyesGallery.appendChild(img);
+});
+
+// Populate love quotes
+const quotesList = document.getElementById('quotesList');
+loveQuotes.forEach(q => {
+  const p = document.createElement('p');
+  p.textContent = q;
+  quotesList.appendChild(p);
+});
+
+// Menu and notification code as before...
+
+// Heart and star particles background animation
+// (Same as previous detailed code — I'll keep it brief here for brevity)
+const heartCanvas = document.createElement('canvas');
+heartCanvas.id = 'heartCanvas';
+document.getElementById('heartParticles').appendChild(heartCanvas);
+
+const ctx = heartCanvas.getContext('2d');
+let W, H;
+function resize() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  heartCanvas.width = W;
+  heartCanvas.height = H;
+}
+window.addEventListener('resize', resize);
+resize();
+
+class Particle {
+  constructor(){
+    this.x = Math.random()*W;
+    this.y = Math.random()*H;
+    this.size = Math.random()*8+4;
+    this.speedX = (Math.random()-0.5)*1.2;
+    this.speedY = (Math.random()-0.5)*1.2;
+    this.angle = 0;
+    this.spinSpeed = (Math.random()-0.5)*0.1;
+    this.type = Math.random() < 0.5 ? 'heart' : 'star';
+  }
+  draw(){
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.rotate(this.angle);
+    ctx.fillStyle = this.type === 'heart' ? '#ff4455' : '#ffd700';
+    if(this.type === 'heart'){
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.bezierCurveTo(-this.size/2, -this.size/2, -this.size, this.size/3, 0, this.size);
+      ctx.bezierCurveTo(this.size, this.size/3, this.size/2, -this.size/2, 0, 0);
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      for(let i=0;i<5;i++){
+        ctx.lineTo(0, -this.size);
+        ctx.translate(0,0);
+        ctx.rotate(Math.PI/5);
+        ctx.lineTo(0, -this.size/2);
+        ctx.rotate(Math.PI/5);
+      }
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+  update(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+    this.angle += this.spinSpeed;
+    if(this.x > W) this.x = 0;
+    if(this.x < 0) this.x = W;
+    if(this.y > H) this.y = 0;
+    if(this.y < 0) this.y = H;
+  }
+}
+
+const particles = [];
+for(let i=0; i<60; i++){
+  particles.push(new Particle());
+}
+
+function animate(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach(p=>{
+    p.update();
+    p.draw();
+  });
+  requestAnimationFrame(animate);
+}
+animate();
